@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# Production build outputs
+dist/
+**/dist/
+build/
+.vite/
+**/.vite/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Uploaded user media during development
+uploads/*
+!uploads/.gitkeep
