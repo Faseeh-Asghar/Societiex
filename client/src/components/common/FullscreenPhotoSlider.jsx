@@ -181,13 +181,9 @@ export default function FullscreenPhotoSlider() {
         })}
       </div>
 
-      {/* Subtle Drag Hint (Bottom Right) */}
-      <div className="absolute bottom-8 right-8 z-30 hidden md:flex items-center gap-2 text-[11px] font-mono tracking-widest text-white/50 uppercase pointer-events-none">
-        <span>SLIDE WITH TOUCHPAD OR MOUSE</span>
-        <span>•</span>
-        <span className="text-white/80 font-bold">
-          0{currentIndex + 1} / 0{SLIDES.length}
-        </span>
+      {/* Slide Counter (Bottom Right) */}
+      <div className="absolute bottom-8 right-8 z-30 hidden md:block text-xs font-mono tracking-widest text-white/60 pointer-events-none">
+        0{currentIndex + 1} / 0{SLIDES.length}
       </div>
     </div>
   );

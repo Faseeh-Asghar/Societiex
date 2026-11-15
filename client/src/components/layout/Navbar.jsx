@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, ArrowRight } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import MobileDrawer from './MobileDrawer';
 
 /**
  * Navbar Component
  * -------------------------------------------------------------
- * Global navigation header for SOCIETIX.
- * - Perfectly coordinates with BrandLogo in the upper-left.
+ * Clean, minimal navigation header for SOCIETIX.
+ * - Coordinates with the BrandLogo in upper-left.
  * - Transparent on hero slider, frosted glass on scroll or interior pages.
- * - Anti-AI design: Crisp typography, warm slate tones, no purple/neon.
- * - No "President Portal" or admin clutter — clean public editorial hierarchy.
+ * - Clean links: Societies, Events, About, Sign In.
+ * - Zero redundant buttons or portal clutter.
  */
 export default function Navbar({ isLanded = true }) {
   const [scrolled, setScrolled] = useState(false);
@@ -28,7 +28,6 @@ export default function Navbar({ isLanded = true }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Only show navbar once the intro has landed
   if (!isLanded) return null;
 
   const isFrosted = scrolled || !isHomePage;
@@ -49,13 +48,12 @@ export default function Navbar({ isLanded = true }) {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-          {/* Left: Spacer corresponding to the fixed BrandLogo in upper-left corner */}
+          {/* Left: Spacer corresponding to the fixed BrandLogo in upper-left */}
           <Link
             to="/"
             className="w-[210px] md:w-[265px] h-10 flex items-center select-none"
             title="SOCIETIX — Home"
           >
-            {/* Transparent click target over the fixed BrandLogo */}
             <span className="sr-only">SOCIETIX Home</span>
           </Link>
 
@@ -86,14 +84,6 @@ export default function Navbar({ isLanded = true }) {
               className="hidden sm:inline-block text-xs uppercase font-mono tracking-widest text-white/70 hover:text-white transition-colors px-3 py-2"
             >
               Sign In
-            </Link>
-
-            <Link
-              to="/societies"
-              className="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-mono tracking-wider text-white transition-all duration-300 group cursor-pointer"
-            >
-              <span>Explore Clubs</span>
-              <ArrowRight className="w-3.5 h-3.5 text-white/70 group-hover:translate-x-0.5 transition-transform" />
             </Link>
 
             {/* Hamburger Trigger (Mobile & Tablet) */}

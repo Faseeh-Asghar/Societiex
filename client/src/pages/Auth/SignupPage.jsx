@@ -6,7 +6,7 @@ import { ArrowLeft, Lock, Mail, User, CheckCircle } from 'lucide-react';
  * SignupPage Component
  * -------------------------------------------------------------
  * Clean student registration form.
- * Clean split layout matching LoginPage.
+ * Minimalist, functional platform style.
  */
 export default function SignupPage() {
   const [fullName, setFullName] = useState('');
@@ -21,98 +21,82 @@ export default function SignupPage() {
     setSubmitted(true);
     setTimeout(() => {
       navigate('/societies');
-    }, 1500);
+    }, 1200);
   };
 
   return (
     <div className="min-h-screen bg-[#14110f] text-white flex flex-col justify-between">
-      {/* Top Navbar Bar */}
-      <div className="p-6 md:p-10 flex items-center justify-between">
+      {/* Top Bar */}
+      <div className="p-6 md:p-8 flex items-center justify-between">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono uppercase tracking-wider text-white/80 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono uppercase tracking-wider text-white/80 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to Home</span>
+          <span>Home</span>
         </Link>
-
-        <span className="font-mono text-xs text-white/40 uppercase">
-          SOCIETIX REGISTRATION
-        </span>
       </div>
 
       {/* Main Split Layout */}
       <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 rounded-3xl bg-[#1b1714] border border-white/10 overflow-hidden shadow-2xl">
+        <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-12 rounded-3xl bg-[#1b1714] border border-white/10 overflow-hidden shadow-2xl">
           {/* Left Column: Visual */}
           <div className="md:col-span-5 relative hidden md:block bg-black/60 overflow-hidden">
             <img
               src="/societies/campus-18.jpeg"
-              alt="Adventure club expedition"
+              alt="Campus"
               className="w-full h-full object-cover opacity-75"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/30" />
-            <div className="absolute bottom-8 left-8 right-8">
-              <span className="font-mono text-[11px] uppercase tracking-widest text-amber-200">
-                FAST-NUCES CFD
-              </span>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
+            <div className="absolute bottom-6 left-6 right-6">
               <p
-                className="mt-2 text-xl font-bold text-white leading-snug"
+                className="text-lg font-bold text-white leading-snug"
                 style={{ fontFamily: "'Cinzel', 'Cormorant Garamond', serif" }}
               >
-                Join the Campus Society Ecosystem.
-              </p>
-              <p className="mt-2 text-xs text-white/60 font-sans leading-relaxed">
-                Unlock direct RSVP to campus events, connect with society executives, and showcase your extra-curricular achievements.
+                SOCIETIX
               </p>
             </div>
           </div>
 
           {/* Right Column: Form */}
-          <div className="md:col-span-7 p-8 sm:p-12 flex flex-col justify-center">
+          <div className="md:col-span-7 p-8 sm:p-10 flex flex-col justify-center">
             {submitted ? (
-              <div className="text-center py-10 space-y-3">
-                <CheckCircle className="w-12 h-12 text-emerald-400 mx-auto animate-bounce" />
-                <h2 className="text-2xl font-bold font-serif text-white">Account Created</h2>
-                <p className="text-xs font-mono text-white/60">
-                  Welcome to Societix! Redirecting to campus societies...
-                </p>
+              <div className="text-center py-8 space-y-2">
+                <CheckCircle className="w-10 h-10 text-emerald-400 mx-auto" />
+                <h2 className="text-xl font-bold font-serif text-white">Account Created</h2>
               </div>
             ) : (
-              <form onSubmit={handleSignup} className="space-y-5">
+              <form onSubmit={handleSignup} className="space-y-4">
                 <div>
                   <h1
-                    className="text-2xl sm:text-3xl font-bold text-white"
+                    className="text-2xl font-bold text-white"
                     style={{ fontFamily: "'Cinzel', 'Cormorant Garamond', serif" }}
                   >
-                    Student Registration
+                    Register
                   </h1>
-                  <p className="mt-1.5 text-xs sm:text-sm text-white/60 font-sans">
-                    Create your student profile with your university credentials.
-                  </p>
                 </div>
 
-                <div className="space-y-3.5">
+                <div className="space-y-3">
                   <div>
                     <label className="block text-xs font-mono text-white/60 mb-1 uppercase tracking-wider">
                       Full Name
                     </label>
                     <div className="relative">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
                       <input
                         required
                         type="text"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                         placeholder="e.g. Muhammad Ahmed"
-                        className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-sans"
+                        className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-sans"
                       />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-xs font-mono text-white/60 mb-1 uppercase tracking-wider">
-                      University Roll Number
+                      Roll Number
                     </label>
                     <input
                       required
@@ -120,7 +104,7 @@ export default function SignupPage() {
                       value={rollNo}
                       onChange={(e) => setRollNo(e.target.value)}
                       placeholder="e.g. 24F-0646"
-                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
                     />
                   </div>
 
@@ -129,14 +113,14 @@ export default function SignupPage() {
                       University Email
                     </label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
                       <input
                         required
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="f240646@cfd.nu.edu.pk"
-                        className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
+                        className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
                       />
                     </div>
                   </div>
@@ -146,14 +130,14 @@ export default function SignupPage() {
                       Password
                     </label>
                     <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                      <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
                       <input
                         required
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••••••"
-                        className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
+                        className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
                       />
                     </div>
                   </div>
@@ -161,7 +145,7 @@ export default function SignupPage() {
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl bg-white text-black font-semibold font-mono text-xs uppercase tracking-wider hover:bg-amber-100 transition-colors shadow-lg cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-white text-black font-semibold font-mono text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors shadow-lg cursor-pointer"
                 >
                   Create Account
                 </button>
@@ -178,8 +162,8 @@ export default function SignupPage() {
         </div>
       </div>
 
-      <div className="p-6 text-center text-xs font-mono text-white/30">
-        FAST-NUCES CFD • Unified Platform
+      <div className="p-4 text-center text-xs font-mono text-white/30">
+        FAST-NUCES CFD
       </div>
     </div>
   );
