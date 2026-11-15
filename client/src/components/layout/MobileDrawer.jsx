@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { X, ArrowRight, Compass, Calendar, Info, LogIn } from 'lucide-react';
+import { X, ArrowRight, Compass, Calendar, Info, LogIn, LogOut, User } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 /**
  * MobileDrawer Component
@@ -11,6 +12,7 @@ import { X, ArrowRight, Compass, Calendar, Info, LogIn } from 'lucide-react';
  */
 export default function MobileDrawer({ isOpen, onClose }) {
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     onClose();
@@ -31,7 +33,6 @@ export default function MobileDrawer({ isOpen, onClose }) {
     { name: 'Societies', path: '/societies', icon: Compass },
     { name: 'Events', path: '/events', icon: Calendar },
     { name: 'About', path: '/about', icon: Info },
-    { name: 'Sign In', path: '/auth/login', icon: LogIn },
   ];
 
   return (
@@ -74,6 +75,29 @@ export default function MobileDrawer({ isOpen, onClose }) {
                 </button>
               </div>
 
+              {/* User Pill (if authenticated) */}
+              {user && (
+                <div className="mt-4 p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between text-xs font-mono">
+                  <div className="flex items-center gap-2">
+                    <User className="w-4 h-4 text-amber-200" />
+                    <div>
+                      <div className="text-white font-medium truncate max-w-[140px]">{user.fullName}</div>
+                      <div className="text-white/40 text-[10px]">{user.rollNo}</div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      logout();
+                      onClose();
+                    }}
+                    className="p-1.5 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+                    title="Sign Out"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+
               {/* Links */}
               <nav className="mt-6 space-y-1.5">
                 {navLinks.map((link) => {
@@ -97,6 +121,19 @@ export default function MobileDrawer({ isOpen, onClose }) {
                     </Link>
                   );
                 })}
+
+                {!user && (
+                  <Link
+                    to="/auth/login"
+                    className="group flex items-center justify-between p-3.5 rounded-xl text-white/70 hover:text-white hover:bg-white/5 transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-3">
+                      <LogIn className="w-4 h-4 text-white/40 group-hover:text-white" />
+                      <span className="text-sm tracking-wide">Sign In</span>
+                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-white/60" />
+                  </Link>
+                )}
               </nav>
             </div>
 

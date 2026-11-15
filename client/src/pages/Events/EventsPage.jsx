@@ -119,7 +119,7 @@ export default function EventsPage() {
                   className="rounded-2xl bg-[#1b1714] border border-white/10 hover:border-white/25 overflow-hidden transition-all duration-500 hover:-translate-y-1 shadow-lg flex flex-col justify-between h-full"
                 >
                   {/* Cover */}
-                  <div className="relative h-44 w-full overflow-hidden bg-black/40">
+                  <Link to={`/events/${evt.id}`} className="block relative h-44 w-full overflow-hidden bg-black/40">
                     <img
                       src={evt.coverImage}
                       alt={evt.title}
@@ -150,7 +150,7 @@ export default function EventsPage() {
                         {evt.status}
                       </span>
                     </div>
-                  </div>
+                  </Link>
 
                   {/* Body */}
                   <div className="p-5 flex-1 flex flex-col justify-between">
@@ -168,12 +168,14 @@ export default function EventsPage() {
                         </span>
                       )}
 
-                      <h2
-                        className="text-lg font-bold text-white leading-snug"
-                        style={{ fontFamily: "'Cinzel', 'Cormorant Garamond', serif" }}
-                      >
-                        {evt.title}
-                      </h2>
+                      <Link to={`/events/${evt.id}`}>
+                        <h2
+                          className="text-lg font-bold text-white leading-snug hover:text-amber-200 transition-colors"
+                          style={{ fontFamily: "'Cinzel', 'Cormorant Garamond', serif" }}
+                        >
+                          {evt.title}
+                        </h2>
+                      </Link>
                       <p className="mt-2 text-xs sm:text-sm text-white/60 line-clamp-3 leading-relaxed font-sans">
                         {evt.description}
                       </p>

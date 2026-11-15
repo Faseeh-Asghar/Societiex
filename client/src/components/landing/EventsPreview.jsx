@@ -46,7 +46,7 @@ export default function EventsPreview() {
             return (
               <ScrollReveal key={evt.id} delay={idx * 0.08}>
                 <Link
-                  to={`/events#${evt.id}`}
+                  to={`/events/${evt.id}`}
                   className="group block h-full rounded-2xl bg-[#1b1714] border border-white/10 hover:border-white/25 overflow-hidden transition-all duration-500 hover:-translate-y-1 shadow-lg hover:shadow-2xl flex flex-col justify-between"
                 >
                   {/* Event Cover Image */}

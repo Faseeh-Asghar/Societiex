@@ -1,25 +1,40 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Lock, Mail, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Lock, Mail, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 /**
  * LoginPage Component
  * -------------------------------------------------------------
- * Clean student & member sign in.
+ * Clean student & member sign in connected to Societix Auth API.
  * Minimalist, functional platform style.
  */
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      navigate('/societies');
-    }, 1200);
+    setError('');
+    setIsSubmitting(true);
+
+    try {
+      await login(identifier, password);
+      setSubmitted(true);
+      setTimeout(() => {
+        navigate('/societies');
+      }, 1000);
+    } catch (err) {
+      setError(err.message || 'Invalid credentials.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -74,6 +89,13 @@ export default function LoginPage() {
                   </h1>
                 </div>
 
+                {error && (
+                  <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{error}</span>
+                  </div>
+                )}
+
                 <div className="space-y-3.5">
                   <div>
                     <label className="block text-xs font-mono text-white/60 mb-1 uppercase tracking-wider">
@@ -84,9 +106,9 @@ export default function LoginPage() {
                       <input
                         required
                         type="text"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="f240646@cfd.nu.edu.pk"
+                        value={identifier}
+                        onChange={(e) => setIdentifier(e.target.value)}
+                        placeholder="f240646@cfd.nu.edu.pk or 24F-0646"
                         className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
                       />
                     </div>
@@ -112,9 +134,17 @@ export default function LoginPage() {
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-white text-black font-semibold font-mono text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors shadow-lg cursor-pointer"
+                  disabled={isSubmitting}
+                  className="w-full py-3 rounded-xl bg-white text-black font-semibold font-mono text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors shadow-lg cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  Sign In
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Verifying...</span>
+                    </>
+                  ) : (
+                    <span>Sign In</span>
+                  )}
                 </button>
 
                 <div className="pt-1 text-center text-xs text-white/50 font-sans">

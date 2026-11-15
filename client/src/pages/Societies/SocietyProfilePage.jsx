@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, MapPin, CheckCircle, Send, Sparkles } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, CheckCircle, Send, Sparkles, AlertCircle, Loader2 } from 'lucide-react';
 import { getSocietyById } from '../../data/societies';
 import { getEventsBySociety } from '../../data/events';
 import ScrollReveal from '../../components/common/ScrollReveal';
 import Footer from '../../components/layout/Footer';
+import { useAuth } from '../../context/AuthContext';
 
 /**
  * SocietyProfilePage Component
@@ -18,8 +19,11 @@ export default function SocietyProfilePage() {
   const society = getSocietyById(id);
   const societyEvents = getEventsBySociety(id);
 
+  const { user, accessToken } = useAuth();
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [joinSubmitted, setJoinSubmitted] = useState(false);
+  const [joinError, setJoinError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     rollNo: '',
@@ -27,6 +31,18 @@ export default function SocietyProfilePage() {
     semester: '1st',
     interest: '',
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: user.fullName || '',
+        rollNo: user.rollNo || '',
+        department: user.department || 'BSCS',
+        semester: user.semester || '1st',
+      }));
+    }
+  }, [user]);
 
   if (!society) {
     return (
@@ -43,13 +59,51 @@ export default function SocietyProfilePage() {
     );
   }
 
-  const handleJoinSubmit = (e) => {
+  const handleJoinSubmit = async (e) => {
     e.preventDefault();
-    setJoinSubmitted(true);
-    setTimeout(() => {
-      setIsJoinModalOpen(false);
-      setJoinSubmitted(false);
-    }, 2000);
+    setJoinError('');
+    setIsSubmitting(true);
+
+    try {
+      // Find database society record by slug if API is active
+      let targetSocietyId = society._id;
+      if (!targetSocietyId) {
+        const checkRes = await fetch(`/api/v1/societies/${society.id}`);
+        if (checkRes.ok) {
+          const checkData = await checkRes.json();
+          targetSocietyId = checkData.data.society._id;
+        }
+      }
+
+      if (accessToken && targetSocietyId) {
+        const res = await fetch('/api/v1/join-requests', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            societyId: targetSocietyId,
+            interest: formData.interest,
+          }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || 'Failed to submit application.');
+        }
+      }
+
+      setJoinSubmitted(true);
+      setTimeout(() => {
+        setIsJoinModalOpen(false);
+        setJoinSubmitted(false);
+      }, 2000);
+    } catch (err) {
+      setJoinError(err.message || 'Submission error.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -168,7 +222,7 @@ export default function SocietyProfilePage() {
                             {evt.rsvpCount} Attending
                           </span>
                           <Link
-                            to={`/events#${evt.id}`}
+                            to={`/events/${evt.id}`}
                             className="px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-mono text-white transition-colors"
                           >
                             Details
@@ -197,14 +251,7 @@ export default function SocietyProfilePage() {
                   Gallery
                 </h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
-                  {[
-                    society.coverImage,
-                    '/societies/campus-08.webp',
-                    '/societies/campus-14.jpeg',
-                    '/societies/campus-18.jpeg',
-                    '/societies/campus-24.jpeg',
-                    '/societies/campus-28.jpeg',
-                  ].map((imgSrc, idx) => (
+                  {(society.gallery || [society.coverImage]).map((imgSrc, idx) => (
                     <div
                       key={idx}
                       className="relative h-32 sm:h-40 rounded-xl overflow-hidden bg-black/40 border border-white/10 group"
@@ -297,6 +344,13 @@ export default function SocietyProfilePage() {
                   </button>
                 </div>
 
+                {joinError && (
+                  <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{joinError}</span>
+                  </div>
+                )}
+
                 <div className="space-y-3 text-xs font-sans">
                   <div>
                     <label className="block text-white/60 font-mono text-[11px] mb-1">Full Name</label>
@@ -370,10 +424,20 @@ export default function SocietyProfilePage() {
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 rounded-xl bg-white text-black font-semibold font-mono text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors cursor-pointer flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                  className="w-full py-2.5 rounded-xl bg-white text-black font-semibold font-mono text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Submit Application</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Submit Application</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}

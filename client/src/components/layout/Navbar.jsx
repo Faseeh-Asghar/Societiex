@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu } from 'lucide-react';
+import { Menu, LogOut, User as UserIcon } from 'lucide-react';
 import MobileDrawer from './MobileDrawer';
+import { useAuth } from '../../context/AuthContext';
 
 /**
  * Navbar Component
@@ -16,6 +17,7 @@ export default function Navbar({ isLanded = true }) {
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
+  const { user, logout } = useAuth();
   const isHomePage = location.pathname === '/';
 
   useEffect(() => {
@@ -78,19 +80,35 @@ export default function Navbar({ isLanded = true }) {
           </nav>
 
           {/* Right: Actions & Mobile Hamburger */}
-          <div className="flex items-center gap-4">
-            <Link
-              to="/auth/login"
-              className="hidden sm:inline-block text-xs uppercase font-mono tracking-widest text-white/70 hover:text-white transition-colors px-3 py-2"
-            >
-              Sign In
-            </Link>
+          <div className="flex items-center gap-3">
+            {user ? (
+              <div className="hidden sm:flex items-center gap-2">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-white/90">
+                  <UserIcon className="w-3 h-3 text-amber-200" />
+                  <span>{user.rollNo}</span>
+                </div>
+                <button
+                  onClick={logout}
+                  title="Sign Out"
+                  className="p-1.5 rounded-lg text-white/50 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/auth/login"
+                className="hidden sm:inline-block text-xs uppercase font-mono tracking-widest text-white/70 hover:text-white transition-colors px-3 py-2"
+              >
+                Sign In
+              </Link>
+            )}
 
-            {/* Hamburger Trigger (Mobile & Tablet) */}
+            {/* Hamburger Trigger (Mobile & Tablet only) */}
             <button
               onClick={() => setDrawerOpen(true)}
               aria-label="Open navigation menu"
-              className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-colors cursor-pointer"
+              className="md:hidden p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-colors cursor-pointer"
             >
               <Menu className="w-5 h-5" />
             </button>

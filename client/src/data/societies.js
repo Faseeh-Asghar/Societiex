@@ -10,7 +10,8 @@
  *   - description: One-paragraph summary
  *   - founded: Year established (if known)
  *   - memberCount: Approximate active members
- *   - coverImage: Path to associated campus photo
+ *   - coverImage: Path to primary associated campus photo
+ *   - gallery: Curated array of distinct campus photography
  *   - color: Brand accent color for UI elements
  */
 
@@ -39,6 +40,13 @@ const societies = [
     founded: null,
     memberCount: 120,
     coverImage: '/societies/campus-06.jpeg',
+    gallery: [
+      '/societies/campus-06.jpeg',
+      '/societies/campus-01.webp',
+      '/societies/campus-11.jpeg',
+      '/societies/campus-16.jpeg',
+      '/societies/campus-21.jpeg',
+    ],
     color: '#3b82f6',
   },
   {
@@ -51,6 +59,13 @@ const societies = [
     founded: null,
     memberCount: 85,
     coverImage: '/societies/campus-02.jpeg',
+    gallery: [
+      '/societies/campus-02.jpeg',
+      '/societies/campus-05.jpeg',
+      '/societies/campus-17.jpeg',
+      '/societies/campus-27.webp',
+      '/societies/campus-28.jpeg',
+    ],
     color: '#8b5cf6',
   },
   {
@@ -63,6 +78,13 @@ const societies = [
     founded: null,
     memberCount: 95,
     coverImage: '/societies/campus-18.jpeg',
+    gallery: [
+      '/societies/campus-18.jpeg',
+      '/societies/campus-19.jpeg',
+      '/societies/campus-26.webp',
+      '/societies/campus-10.webp',
+      '/societies/campus-25.jpeg',
+    ],
     color: '#059669',
   },
   {
@@ -75,6 +97,13 @@ const societies = [
     founded: 2022,
     memberCount: 60,
     coverImage: '/societies/campus-22.jpeg',
+    gallery: [
+      '/societies/campus-22.jpeg',
+      '/societies/campus-09.webp',
+      '/societies/campus-15.jpeg',
+      '/societies/campus-06.jpeg',
+      '/societies/campus-20.jpeg',
+    ],
     color: '#f59e0b',
   },
   {
@@ -87,6 +116,13 @@ const societies = [
     founded: null,
     memberCount: 70,
     coverImage: '/societies/campus-23.jpeg',
+    gallery: [
+      '/societies/campus-23.jpeg',
+      '/societies/campus-13.jpeg',
+      '/societies/campus-14.jpeg',
+      '/societies/campus-24.jpeg',
+      '/societies/campus-07.jpeg',
+    ],
     color: '#ef4444',
   },
   {
@@ -99,6 +135,13 @@ const societies = [
     founded: 2016,
     memberCount: 55,
     coverImage: '/societies/campus-24.jpeg',
+    gallery: [
+      '/societies/campus-24.jpeg',
+      '/societies/campus-14.jpeg',
+      '/societies/campus-23.jpeg',
+      '/societies/campus-20.jpeg',
+      '/societies/campus-02.jpeg',
+    ],
     color: '#dc2626',
   },
   {
@@ -111,6 +154,13 @@ const societies = [
     founded: 2012,
     memberCount: 100,
     coverImage: '/societies/campus-03.jpeg',
+    gallery: [
+      '/societies/campus-03.jpeg',
+      '/societies/campus-17.jpeg',
+      '/societies/campus-28.jpeg',
+      '/societies/campus-29.jpeg',
+      '/societies/campus-01.webp',
+    ],
     color: '#7c3aed',
   },
   {
@@ -123,6 +173,13 @@ const societies = [
     founded: null,
     memberCount: 45,
     coverImage: '/societies/campus-14.jpeg',
+    gallery: [
+      '/societies/campus-14.jpeg',
+      '/societies/campus-24.jpeg',
+      '/societies/campus-23.jpeg',
+      '/societies/campus-20.jpeg',
+      '/societies/campus-13.jpeg',
+    ],
     color: '#ec4899',
   },
   {
@@ -135,6 +192,13 @@ const societies = [
     founded: null,
     memberCount: 110,
     coverImage: '/societies/campus-07.jpeg',
+    gallery: [
+      '/societies/campus-07.jpeg',
+      '/societies/campus-11.jpeg',
+      '/societies/campus-16.jpeg',
+      '/societies/campus-04.jpeg',
+      '/societies/campus-06.jpeg',
+    ],
     color: '#0ea5e9',
   },
   {
@@ -147,6 +211,13 @@ const societies = [
     founded: 2012,
     memberCount: 150,
     coverImage: '/societies/campus-08.webp',
+    gallery: [
+      '/societies/campus-08.webp',
+      '/societies/campus-10.webp',
+      '/societies/campus-25.jpeg',
+      '/societies/campus-19.jpeg',
+      '/societies/campus-18.jpeg',
+    ],
     color: '#16a34a',
   },
   {
@@ -159,6 +230,13 @@ const societies = [
     founded: 2015,
     memberCount: 75,
     coverImage: '/societies/campus-29.jpeg',
+    gallery: [
+      '/societies/campus-29.jpeg',
+      '/societies/campus-28.jpeg',
+      '/societies/campus-27.webp',
+      '/societies/campus-05.jpeg',
+      '/societies/campus-03.jpeg',
+    ],
     color: '#14b8a6',
   },
   {
@@ -171,6 +249,13 @@ const societies = [
     founded: null,
     memberCount: 65,
     coverImage: '/societies/campus-17.jpeg',
+    gallery: [
+      '/societies/campus-17.jpeg',
+      '/societies/campus-02.jpeg',
+      '/societies/campus-03.jpeg',
+      '/societies/campus-28.jpeg',
+      '/societies/campus-29.jpeg',
+    ],
     color: '#a855f7',
   },
   {
@@ -183,6 +268,13 @@ const societies = [
     founded: null,
     memberCount: 80,
     coverImage: '/societies/campus-28.jpeg',
+    gallery: [
+      '/societies/campus-28.jpeg',
+      '/societies/campus-29.jpeg',
+      '/societies/campus-27.webp',
+      '/societies/campus-05.jpeg',
+      '/societies/campus-20.jpeg',
+    ],
     color: '#10b981',
   },
   {
@@ -195,6 +287,13 @@ const societies = [
     founded: null,
     memberCount: 90,
     coverImage: '/societies/campus-11.jpeg',
+    gallery: [
+      '/societies/campus-11.jpeg',
+      '/societies/campus-07.jpeg',
+      '/societies/campus-16.jpeg',
+      '/societies/campus-04.jpeg',
+      '/societies/campus-06.jpeg',
+    ],
     color: '#2563eb',
   },
   {
@@ -207,6 +306,13 @@ const societies = [
     founded: null,
     memberCount: 130,
     coverImage: '/societies/campus-16.jpeg',
+    gallery: [
+      '/societies/campus-16.jpeg',
+      '/societies/campus-04.jpeg',
+      '/societies/campus-11.jpeg',
+      '/societies/campus-06.jpeg',
+      '/societies/campus-07.jpeg',
+    ],
     color: '#4285f4',
   },
   {
@@ -219,6 +325,13 @@ const societies = [
     founded: null,
     memberCount: 55,
     coverImage: '/societies/campus-13.jpeg',
+    gallery: [
+      '/societies/campus-13.jpeg',
+      '/societies/campus-23.jpeg',
+      '/societies/campus-14.jpeg',
+      '/societies/campus-24.jpeg',
+      '/societies/campus-18.jpeg',
+    ],
     color: '#f97316',
   },
   {
@@ -231,6 +344,13 @@ const societies = [
     founded: null,
     memberCount: 100,
     coverImage: '/societies/campus-04.jpeg',
+    gallery: [
+      '/societies/campus-04.jpeg',
+      '/societies/campus-16.jpeg',
+      '/societies/campus-06.jpeg',
+      '/societies/campus-11.jpeg',
+      '/societies/campus-21.jpeg',
+    ],
     color: '#6366f1',
   },
   {
@@ -243,6 +363,13 @@ const societies = [
     founded: null,
     memberCount: 50,
     coverImage: '/societies/campus-12.jpeg',
+    gallery: [
+      '/societies/campus-12.jpeg',
+      '/societies/campus-13.jpeg',
+      '/societies/campus-23.jpeg',
+      '/societies/campus-24.jpeg',
+      '/societies/campus-14.jpeg',
+    ],
     color: '#e11d48',
   },
 ];

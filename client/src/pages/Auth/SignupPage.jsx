@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Lock, Mail, User, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Lock, Mail, User, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 /**
  * SignupPage Component
  * -------------------------------------------------------------
- * Clean student registration form.
+ * Clean student registration form connected to Societix Auth API.
  * Minimalist, functional platform style.
  */
 export default function SignupPage() {
@@ -13,15 +14,39 @@ export default function SignupPage() {
   const [rollNo, setRollNo] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [department, setDepartment] = useState('BSCS');
+  const [semester, setSemester] = useState('1st');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      navigate('/societies');
-    }, 1200);
+    setError('');
+    setIsSubmitting(true);
+
+    try {
+      await register({
+        fullName,
+        rollNo,
+        email,
+        password,
+        department,
+        semester,
+      });
+
+      setSubmitted(true);
+      setTimeout(() => {
+        navigate('/societies');
+      }, 1000);
+    } catch (err) {
+      setError(err.message || 'Registration failed.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -76,6 +101,13 @@ export default function SignupPage() {
                   </h1>
                 </div>
 
+                {error && (
+                  <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{error}</span>
+                  </div>
+                )}
+
                 <div className="space-y-3">
                   <div>
                     <label className="block text-xs font-mono text-white/60 mb-1 uppercase tracking-wider">
@@ -94,18 +126,37 @@ export default function SignupPage() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-mono text-white/60 mb-1 uppercase tracking-wider">
-                      Roll Number
-                    </label>
-                    <input
-                      required
-                      type="text"
-                      value={rollNo}
-                      onChange={(e) => setRollNo(e.target.value)}
-                      placeholder="e.g. 24F-0646"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
-                    />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-mono text-white/60 mb-1 uppercase tracking-wider">
+                        Roll Number
+                      </label>
+                      <input
+                        required
+                        type="text"
+                        value={rollNo}
+                        onChange={(e) => setRollNo(e.target.value)}
+                        placeholder="24F-0646"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-mono text-white/60 mb-1 uppercase tracking-wider">
+                        Department
+                      </label>
+                      <select
+                        value={department}
+                        onChange={(e) => setDepartment(e.target.value)}
+                        className="w-full px-3 py-2.5 rounded-xl bg-[#221d19] border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
+                      >
+                        <option value="BSCS">BS CS</option>
+                        <option value="BSSE">BS SE</option>
+                        <option value="BSAI">BS AI</option>
+                        <option value="BSDS">BS DS</option>
+                        <option value="BBA">BBA</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div>
@@ -125,29 +176,59 @@ export default function SignupPage() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-mono text-white/60 mb-1 uppercase tracking-wider">
-                      Password
-                    </label>
-                    <div className="relative">
-                      <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                      <input
-                        required
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="••••••••••••"
-                        className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
-                      />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-mono text-white/60 mb-1 uppercase tracking-wider">
+                        Semester
+                      </label>
+                      <select
+                        value={semester}
+                        onChange={(e) => setSemester(e.target.value)}
+                        className="w-full px-3 py-2.5 rounded-xl bg-[#221d19] border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
+                      >
+                        <option value="1st">1st</option>
+                        <option value="2nd">2nd</option>
+                        <option value="3rd">3rd</option>
+                        <option value="4th">4th</option>
+                        <option value="5th">5th</option>
+                        <option value="6th">6th</option>
+                        <option value="7th">7th</option>
+                        <option value="8th">8th</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-mono text-white/60 mb-1 uppercase tracking-wider">
+                        Password
+                      </label>
+                      <div className="relative">
+                        <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                        <input
+                          required
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="••••••••••••"
+                          className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-amber-300 outline-none text-white text-xs font-mono"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-white text-black font-semibold font-mono text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors shadow-lg cursor-pointer"
+                  disabled={isSubmitting}
+                  className="w-full py-3 rounded-xl bg-white text-black font-semibold font-mono text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors shadow-lg cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  Create Account
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Creating Account...</span>
+                    </>
+                  ) : (
+                    <span>Create Account</span>
+                  )}
                 </button>
 
                 <div className="text-center text-xs text-white/50 font-sans">

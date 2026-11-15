@@ -10,9 +10,11 @@ import LandingPage from './pages/Landing/LandingPage';
 import SocietiesPage from './pages/Societies/SocietiesPage';
 import SocietyProfilePage from './pages/Societies/SocietyProfilePage';
 import EventsPage from './pages/Events/EventsPage';
+import EventDetailPage from './pages/Events/EventDetailPage';
 import AboutPage from './pages/About/AboutPage';
 import LoginPage from './pages/Auth/LoginPage';
 import SignupPage from './pages/Auth/SignupPage';
+import NotFoundPage from './pages/NotFound/NotFoundPage';
 
 /**
  * App Root Component
@@ -92,10 +94,11 @@ export default function App() {
             <Route path="/societies" element={<SocietiesPage />} />
             <Route path="/societies/:id" element={<SocietyProfilePage />} />
             <Route path="/events" element={<EventsPage />} />
+            <Route path="/events/:id" element={<EventDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/auth/login" element={<LoginPage />} />
             <Route path="/auth/signup" element={<SignupPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
       )}

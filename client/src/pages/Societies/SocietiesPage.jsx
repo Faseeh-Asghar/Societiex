@@ -116,10 +116,13 @@ export default function SocietiesPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1b1714] via-transparent to-black/30" />
 
-                    {/* Category Pill */}
-                    <div className="absolute top-3 left-3">
+                    {/* Category Pill & Monogram */}
+                    <div className="absolute top-3 left-3 flex items-center gap-1.5">
                       <span className="px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono uppercase tracking-wider text-amber-200">
                         {society.category}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-[10px] font-mono font-bold uppercase tracking-wider text-white">
+                        {society.shortName}
                       </span>
                     </div>
 
