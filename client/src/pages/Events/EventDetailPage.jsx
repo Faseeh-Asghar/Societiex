@@ -6,6 +6,7 @@ import { getSocietyById } from '../../data/societies';
 import ScrollReveal from '../../components/common/ScrollReveal';
 import Footer from '../../components/layout/Footer';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE_URL } from '../../services/api';
 
 /**
  * EventDetailPage Component
@@ -63,7 +64,7 @@ export default function EventDetailPage() {
     try {
       let targetEventId = event._id;
       if (!targetEventId) {
-        const checkRes = await fetch(`/api/v1/events/${event.id}`);
+        const checkRes = await fetch(`${API_BASE_URL}/api/v1/events/${event.id}`);
         if (checkRes.ok) {
           const checkData = await checkRes.json();
           targetEventId = checkData.data.event._id;
@@ -71,7 +72,7 @@ export default function EventDetailPage() {
       }
 
       if (accessToken && targetEventId) {
-        const res = await fetch('/api/v1/rsvps', {
+        const res = await fetch(`${API_BASE_URL}/api/v1/rsvps`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

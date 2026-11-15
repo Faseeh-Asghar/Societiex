@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { API_BASE_URL } from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -10,7 +11,7 @@ export function AuthProvider({ children }) {
   // Fetch current user details if access token exists
   const fetchMe = useCallback(async (token) => {
     try {
-      const res = await fetch('/api/v1/auth/me', {
+      const res = await fetch(`${API_BASE_URL}/api/v1/auth/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -43,7 +44,7 @@ export function AuthProvider({ children }) {
 
   // Sign In action
   const login = async (identifier, password) => {
-    const res = await fetch('/api/v1/auth/login', {
+    const res = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ identifier, password }),
@@ -63,7 +64,7 @@ export function AuthProvider({ children }) {
 
   // Sign Up / Register action
   const register = async (formData) => {
-    const res = await fetch('/api/v1/auth/register', {
+    const res = await fetch(`${API_BASE_URL}/api/v1/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
@@ -88,7 +89,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       if (accessToken) {
-        await fetch('/api/v1/auth/logout', {
+        await fetch(`${API_BASE_URL}/api/v1/auth/logout`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${accessToken}` },
         });

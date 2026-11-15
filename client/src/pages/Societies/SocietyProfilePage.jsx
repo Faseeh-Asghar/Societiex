@@ -6,6 +6,7 @@ import { getEventsBySociety } from '../../data/events';
 import ScrollReveal from '../../components/common/ScrollReveal';
 import Footer from '../../components/layout/Footer';
 import { useAuth } from '../../context/AuthContext';
+import { API_BASE_URL } from '../../services/api';
 
 /**
  * SocietyProfilePage Component
@@ -68,7 +69,7 @@ export default function SocietyProfilePage() {
       // Find database society record by slug if API is active
       let targetSocietyId = society._id;
       if (!targetSocietyId) {
-        const checkRes = await fetch(`/api/v1/societies/${society.id}`);
+        const checkRes = await fetch(`${API_BASE_URL}/api/v1/societies/${society.id}`);
         if (checkRes.ok) {
           const checkData = await checkRes.json();
           targetSocietyId = checkData.data.society._id;
@@ -76,7 +77,7 @@ export default function SocietyProfilePage() {
       }
 
       if (accessToken && targetSocietyId) {
-        const res = await fetch('/api/v1/join-requests', {
+        const res = await fetch(`${API_BASE_URL}/api/v1/join-requests`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

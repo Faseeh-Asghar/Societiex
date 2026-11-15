@@ -21,10 +21,36 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // 1. CORS Configuration
-const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:5173';
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  ...(process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',').map((url) => url.trim()) : []),
+];
+
 app.use(
   cors({
-    origin: allowedOrigin,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
+      if (!origin) return callback(null, true);
+
+      // Check configured origins or wildcards
+      if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+        return callback(null, true);
+      }
+
+      // Automatically allow all Vercel preview/production deployments
+      try {
+        const hostname = new URL(origin).hostname;
+        if (hostname.endsWith('.vercel.app') || hostname === 'localhost' || hostname === '127.0.0.1') {
+          return callback(null, true);
+        }
+      } catch (e) {
+        // Fall through to reject
+      }
+
+      return callback(new Error(`Origin ${origin} not allowed by CORS`));
+    },
     credentials: true,
   })
 );
